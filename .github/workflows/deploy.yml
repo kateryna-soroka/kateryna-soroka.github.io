@@ -1,0 +1,69 @@
+# Сборка и выкладка сайта на GitHub Pages.
+# Запускается сам при каждом push в main и вручную: Actions → Deploy → Run workflow.
+# Адрес сайта GitHub подставляет сам (свой домен из Settings → Pages, если он задан) —
+# по нему собираются canonical, hreflang, og:image и sitemap.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Одна выкладка за раз; начатую не обрывать
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - id: pages
+        uses: actions/configure-pages@v6
+
+      # Сайт стоит на абсолютных путях (/ru/, /media/…): на адресе с подпапкой он развалится
+      - name: Адрес сайта
+        env:
+          BASE_URL: ${{ steps.pages.outputs.base_url }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          if [ -n "$BASE_PATH" ]; then
+            echo "::error::Сайт открывается с подпапкой ($BASE_URL). Нужен корень: репозиторий <ник>.github.io или свой домен в Settings → Pages."
+            exit 1
+          fi
+          echo "SITE_URL=$BASE_URL" >> "$GITHUB_ENV"
+          echo "Собираю под адрес: $BASE_URL"
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run check:prices
+
+      # _headers читают Cloudflare и Netlify; GitHub Pages его не понимает — политика уже стоит в <meta>
+      - run: rm -f dist/_headers
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

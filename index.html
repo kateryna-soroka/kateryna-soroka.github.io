@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Катерина Сорока</title>
+    <meta name="description" content="" />
+    <meta name="theme-color" content="#FAF9F7" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!--head-->
+    <script>
+      // Вернувшийся посетитель выбирал RU или EN — сразу открыть его языковую версию (до отрисовки, без мигания)
+      try {
+        var s = localStorage.getItem('ks-lang')
+        if (location.pathname === '/' && (s === 'ru' || s === 'en')) location.replace('/' + s + '/' + location.search + location.hash)
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
