@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import { RU } from './helpers'
 
 const pathname = (url: string) => new URL(url).pathname
@@ -122,6 +122,37 @@ test.describe('SMM-пакеты (ТЗ §7)', () => {
     await expect(page.locator('#pkg-complete .pkg__row--no')).toHaveCount(0)
     await expect(page.locator('#pkg-base .pkg__row--no')).toHaveCount(3)
     await expect(page.locator('#pkg-base .pkg__row--extra')).toHaveCount(7)
+  })
+})
+
+// Катя 02.11: «когда наводишь курсор, ещё не нажимая, оно уже должно светиться бордовым градиентом» —
+// панели навигации и оба SMM-пакета
+test.describe('градиент под курсором', () => {
+  const gradientOn = (page: Page, selector: string) =>
+    page.evaluate((s) => {
+      const el = document.querySelector(s)!
+      return { glow: getComputedStyle(el, '::before').opacity, color: getComputedStyle(el).color }
+    }, selector)
+
+  test('панель навигации и закрытый пакет светятся при наведении, без клика', async ({ page }) => {
+    await page.goto('/')
+    test.skip(!(await page.evaluate(() => matchMedia('(any-hover: hover)').matches)), 'устройство без мыши и тачпада')
+    const light = 'rgb(250, 249, 247)'
+
+    const panel = '.nav-panel[href="#smm"]'
+    await page.locator(panel).scrollIntoViewIfNeeded()
+    await page.locator(panel).hover()
+    await expect.poll(() => gradientOn(page, panel)).toEqual({ glow: '1', color: light })
+
+    const head = '#pkg-complete-label'
+    await page.locator(head).scrollIntoViewIfNeeded()
+    await page.locator(head).hover()
+    await expect(page.locator(head)).toHaveAttribute('aria-expanded', 'false')
+    await expect.poll(() => gradientOn(page, head)).toEqual({ glow: '1', color: light })
+
+    // курсор ушёл — пакет снова светлый
+    await page.mouse.move(2, 2)
+    await expect.poll(() => gradientOn(page, head)).toEqual({ glow: '0', color: 'rgb(45, 18, 13)' })
   })
 })
 

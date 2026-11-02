@@ -1,4 +1,4 @@
-import { readdirSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { ru } from '../../src/content/i18n/ru'
@@ -308,5 +308,22 @@ describe('портфолио: папки и материалы', () => {
       .map((e) => '/' + path.relative(root, path.join(e.parentPath, e.name)).split(path.sep).join('/'))
     expect(files.length).toBeGreaterThan(0)
     expect(files.filter((f) => !used.has(f))).toEqual([])
+  })
+})
+
+describe('правки Кати 02.11', () => {
+  it('подсветка под курсором — через any-hover: на ноутбуке с сенсорным экраном (hover: hover) ложно', () => {
+    const css = readFileSync(path.resolve(__dirname, '../../src/index.css'), 'utf8')
+    expect(css).not.toMatch(/\(\s*hover\s*:\s*hover\s*\)/)
+    expect(css).toMatch(/\.pkg__head:hover::before/)
+  })
+
+  it('английский — британский, как объявлено в разметке (en_GB): colour, centre', () => {
+    // только видимый текст: ключи проектов и папок (colorist) — служебные имена, на сайте их нет
+    const projects = Object.values(PROJECTS).map((p: { title: { en: string }; about?: { en: string } }) => [p.title.en, p.about?.en])
+    const folders = PORTFOLIO_ITEMS.map((w) => [w.title.en, ...(w.slides ?? []).map((s) => s.note?.en)])
+    const en = JSON.stringify([dictionaries.en, projects, folders])
+    expect(en).toContain('colour')
+    expect(en).not.toMatch(/\bcolor|\bcenter\b/i)
   })
 })

@@ -1,6 +1,6 @@
 import type { Dict } from './ru'
 
-/** EN — professional translation from RU. */
+/** EN — professional translation from RU. British spelling (colour, centre): the pages are marked en_GB, see scripts/seo.mjs. */
 export const en: Dict = {
   meta: {
     title: 'Kateryna Soroka — SMM, Content Creator, Reels Editing',
@@ -74,7 +74,7 @@ export const en: Dict = {
       branding: 'Full logo / branding / identity design',
       landings: 'Landing pages',
       chatbots: 'Chatbots',
-      funnels: 'Automated funnels and automations',
+      funnels: 'Automated sales funnels and other automations',
     },
     legend: {
       yes: 'Included',
@@ -110,11 +110,11 @@ export const en: Dict = {
     services: [
       {
         name: 'Basic editing',
-        includes: 'Cutting footage, story-driven structure, subtitles, background music, sound effects, basic color correction',
+        includes: 'Cutting footage, story-driven structure, subtitles, background music, sound effects, basic colour correction',
       },
       {
         name: 'Reportage editing (events, backstage)',
-        includes: 'Selecting the best shots, cutting to music, building the pace of the video, color correction, sound design',
+        includes: 'Selecting the best shots, cutting to music, building the pace of the video, colour correction, sound design',
       },
       {
         name: 'Dynamic editing with animation',
@@ -135,12 +135,12 @@ export const en: Dict = {
   },
   branding: {
     title: 'Branding / Visual Identity',
-    text: 'Design of the logo, brand style and visual concept of a brand. Selection of the color palette, typography and graphic elements to create a cohesive and recognizable visual image.',
+    text: 'Designing the logo, brand style and visual concept of a brand. Selecting the colour palette, typography and graphic elements to create a cohesive, recognisable visual image.',
     directionsTitle: 'Areas of work',
     directions: [
       'Logo design',
       'Brand style',
-      'Color palette and typography',
+      'Colour palette and typography',
       'Graphic elements',
       'Brand visual concept',
     ],

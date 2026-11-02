@@ -71,10 +71,10 @@ export const PROJECTS = {
     title: { ru: 'Лазерная эпиляция', uk: 'Лазерна епіляція', en: 'Laser hair removal' },
   },
   colorist: {
-    title: { ru: 'Колорист', uk: 'Колорист', en: 'Hair colorist' },
+    title: { ru: 'Колорист', uk: 'Колорист', en: 'Hair colourist' },
   },
   cbt: {
-    title: { ru: 'Центр КПТ', uk: 'Центр КПТ', en: 'CBT center' },
+    title: { ru: 'Центр КПТ', uk: 'Центр КПТ', en: 'CBT centre' },
   },
   'dog-trainer': {
     title: { ru: 'Кинолог', uk: 'Кінолог', en: 'Dog trainer' },
@@ -218,7 +218,7 @@ export const PORTFOLIO_ITEMS: readonly PortfolioCase[] = [
         project: 'anna-soul',
         // 15:36 «Плохое качество», 16:20 «Нет оригинала перегенерируй в хорошем качестве»: карточки пересобраны в вёрстке
         // старого экрана статистики Instagram с цифрами её слайда — brief/anna-soul-stats-recreated/cards.html
-        note: { ru: 'Просмотры рилсов: 1,8 млн · 357 тыс. · 107 тыс.', uk: 'Перегляди рілс: 1,8 млн · 357 тис. · 107 тис.', en: 'Reel views: 1.8M · 357K · 107K' },
+        note: { ru: 'Просмотры рилсов: 1,8 млн · 357 тыс. · 107 тыс.', uk: 'Перегляди рілсів: 1,8 млн · 357 тис. · 107 тис.', en: 'Reel views: 1.8M · 357K · 107K' },
       },
       // «вот это все на один слайд, и это можно подписать что wow beauty кейс»
       { dir: 'wow', project: 'wow' },
